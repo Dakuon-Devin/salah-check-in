@@ -37,6 +37,10 @@ class PrayerTimeRepository @Inject constructor(
         }
     }
     
+    suspend fun getPrayerTimeById(prayerId: Long): PrayerTime? = withContext(Dispatchers.IO) {
+        return@withContext prayerTimeDao.getPrayerTimeById(prayerId)
+    }
+    
     suspend fun updatePrayerStatus(prayerId: Long, completed: Boolean) = withContext(Dispatchers.IO) {
         prayerTimeDao.updatePrayerStatus(prayerId, completed)
     }
