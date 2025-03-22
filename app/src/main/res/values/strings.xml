@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">礼拝リマインダー</string>
+    <string name="prayer_reminder">礼拝しましたか？</string>
+    <string name="yes">はい</string>
+    <string name="no">いいえ</string>
+    <string name="snooze">後で</string>
+    <string name="fajr">ファジュル</string>
+    <string name="dhuhr">ズフル</string>
+    <string name="asr">アスル</string>
+    <string name="maghrib">マグリブ</string>
+    <string name="isha">イシャー</string>
+    <string name="settings">設定</string>
+    <string name="history">履歴</string>
+</resources>
