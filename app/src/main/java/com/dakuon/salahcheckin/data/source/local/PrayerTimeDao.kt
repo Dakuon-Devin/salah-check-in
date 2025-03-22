@@ -13,6 +13,9 @@ interface PrayerTimeDao {
     @Query("SELECT * FROM prayer_times WHERE date(time) = date('now') ORDER BY time ASC")
     suspend fun getTodayPrayerTimes(): List<PrayerTime>
     
+    @Query("SELECT * FROM prayer_times WHERE id = :prayerId")
+    suspend fun getPrayerTimeById(prayerId: Long): PrayerTime?
+    
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(prayerTimes: List<PrayerTime>)
     

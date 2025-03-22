@@ -2,6 +2,7 @@ package com.dakuon.salahcheckin.di
 
 import android.content.Context
 import androidx.room.Room
+import androidx.work.WorkManager
 import com.dakuon.salahcheckin.data.repository.PrayerTimeRepository
 import com.dakuon.salahcheckin.data.source.local.AppDatabase
 import com.dakuon.salahcheckin.data.source.local.PrayerTimeDao
@@ -38,6 +39,12 @@ object AppModule {
     
     @Provides
     @Singleton
+    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
+        return WorkManager.getInstance(context)
+    }
+    
+    @Provides
+    @Singleton
     fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
@@ -54,6 +61,25 @@ object AppModule {
         return Retrofit.Builder()
             .baseUrl("https://api.aladhan.com/v1/")
             .client(okHttpClient)
+            .addConverterFactory(MoshiConverterFactory.create())
+            .build()
+    }
+    
+    @Provides
+    @Singleton
+    fun provideAladhanApiService(retrofit: Retrofit): AladhanApiService {
+        return retrofit.create(AladhanApiService::class.java)
+    }
+    
+    @Provides
+    @Singleton
+    fun providePrayerTimeRepository(
+        aladhanApiService: AladhanApiService,
+        prayerTimeDao: PrayerTimeDao
+    ): PrayerTimeRepository {
+        return PrayerTimeRepository(aladhanApiService, prayerTimeDao)
+    }
+}
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
     }
